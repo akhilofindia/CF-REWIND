@@ -13,6 +13,7 @@ interface RatingChartProps {
   ratingHistory: RatingChange[];
   currentRating: number;
   maxRating: number;
+  baselineRating: number;
 }
 
 const getRatingColor = (rating: number) => {
@@ -38,10 +39,9 @@ const getRatingTitle = (rating: number) => {
   return "Newbie";
 };
 
-export const RatingChart = ({ ratingHistory, currentRating, maxRating }: RatingChartProps) => {
-  const netChange = ratingHistory.length > 0 
-    ? currentRating - ratingHistory[0].oldRating 
-    : 0;
+export const RatingChart = ({ ratingHistory, currentRating, maxRating, baselineRating }: RatingChartProps) => {
+  // Net change = Max rating in 2025 - baseline rating before 2025
+  const netChange = maxRating - baselineRating;
   const isPositive = netChange >= 0;
 
   return (
