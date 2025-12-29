@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FloatingElements } from "@/components/FloatingElements";
 import { UsernameForm } from "@/components/UsernameForm";
 import { StatsDisplay } from "@/components/StatsDisplay";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Code2 } from "lucide-react";
 
 interface UserStats {
   username: string;
@@ -11,6 +11,7 @@ interface UserStats {
   contestsParticipated: number;
   currentRating: number;
   maxRating: number;
+  baselineRating: number;
   ratingHistory: Array<{
     contestName: string;
     oldRating: number;
@@ -123,6 +124,19 @@ const Index = () => {
       // Calculate streak (simplified)
       const longestStreak = Math.min(Math.floor(solvedProblems.size / 3), 30);
 
+      // Find baseline rating (last contest before 2025)
+      const contestsBefore2025 = allRatings.filter(
+        (r: any) => r.ratingUpdateTimeSeconds < startOf2025
+      );
+      const baselineRating = contestsBefore2025.length > 0 
+        ? contestsBefore2025[contestsBefore2025.length - 1].newRating 
+        : (ratings2025.length > 0 ? ratings2025[0].oldRating : 0);
+
+      // Calculate max rating achieved in 2025
+      const maxRating2025 = ratings2025.length > 0
+        ? Math.max(...ratings2025.map((r: any) => r.newRating))
+        : baselineRating;
+
       // Rating history for display
       const ratingHistory = ratings2025.slice(-10).map((r: any) => ({
         contestName: r.contestName.length > 30 ? r.contestName.substring(0, 30) + "..." : r.contestName,
@@ -146,7 +160,8 @@ const Index = () => {
         problemsSolved: solvedProblems.size,
         contestsParticipated: ratings2025.length,
         currentRating: user.rating || 0,
-        maxRating: user.maxRating || 0,
+        maxRating: maxRating2025,
+        baselineRating,
         ratingHistory,
         topics: sortedTopics,
         funStats: {
@@ -280,8 +295,8 @@ const Index = () => {
           transition={{ delay: 1.2 }}
           className="absolute bottom-6 flex items-center gap-2 text-muted-foreground/50 text-sm"
         >
-          <img src="/logo.svg" className="w-4 h-4" alt="CF WRAPPED" />
-          <span>Made with 💙 for competitive programmers by akhil</span>
+          <Code2 className="w-4 h-4" />
+          <span>Made with 💙 for competitive programmers</span>
         </motion.div>
       </div>
     </div>
