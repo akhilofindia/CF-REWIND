@@ -4,7 +4,7 @@ import { RatingChart } from "./RatingChart";
 import { TopicsChart } from "./TopicsChart";
 import { FunStats } from "./FunStats";
 import { Button } from "./ui/button";
-import { ArrowLeft, Trophy, Target, Calendar, Award } from "lucide-react";
+import { ArrowLeft, Code2, Trophy, Target, Calendar, Award } from "lucide-react";
 
 interface UserStats {
   username: string;
@@ -12,6 +12,7 @@ interface UserStats {
   contestsParticipated: number;
   currentRating: number;
   maxRating: number;
+  baselineRating: number;
   ratingHistory: Array<{
     contestName: string;
     oldRating: number;
@@ -75,7 +76,7 @@ export const StatsDisplay = ({ stats, onBack }: StatsDisplayProps) => {
       {/* Main Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
-          icon={<img src="/logo.svg" className="w-8 h-8" alt="CF WRAPPED" />}
+          icon={<Code2 className="w-8 h-8" />}
           title="Problems Conquered"
           value={stats.problemsSolved}
           subtitle="AC submissions this year"
@@ -114,6 +115,7 @@ export const StatsDisplay = ({ stats, onBack }: StatsDisplayProps) => {
           ratingHistory={stats.ratingHistory}
           currentRating={stats.currentRating}
           maxRating={stats.maxRating}
+          baselineRating={stats.baselineRating}
         />
         <TopicsChart topics={stats.topics} />
       </div>
