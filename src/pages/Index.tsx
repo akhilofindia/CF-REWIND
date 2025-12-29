@@ -296,7 +296,7 @@ const Index = () => {
           className="absolute bottom-6 flex items-center gap-2 text-muted-foreground/50 text-sm"
         >
           <Code2 className="w-4 h-4" />
-          <span>Made with 💙 for competitive programmers</span>
+          <span>Made with 💙 for competitive programmers by akhil</span>
         </motion.div>
       </div>
     </div>
